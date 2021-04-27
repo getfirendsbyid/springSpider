@@ -1,16 +1,16 @@
-package com.george.spider.controller;
+package com.george.spider.app.Controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/hello")
+@RequestMapping("/index")
 public class IndexController {
 
-    @RequestMapping("/say")
+    @RequestMapping("")
     public String sayHello() {
         return "hello world";
     }
 
-    
+
 }
