@@ -1,5 +1,6 @@
 package com.george.spider.app.Controller;
 
+import com.george.spider.app.Utils.HttpClientUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -7,10 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/index")
 public class IndexController {
 
-    @RequestMapping("")
+    @RequestMapping("/index")
     public String sayHello() {
-        return "hello world";
+        String url ="http://www.baidu.com";
+        String res = HttpClientUtils.httpGetRequest(url);
+
+        return res;
     }
-
-
 }
