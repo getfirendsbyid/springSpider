@@ -36,6 +36,7 @@ public class HttpClientUtils {
         }
     }
 
+
     /**
      * 通过连接池获取HttpClient
      *
@@ -130,7 +131,7 @@ public class HttpClientUtils {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 // long len = entity.getContentLength();// -1 表示长度未知
-                String result = EntityUtils.toString(entity);
+                String result = EntityUtils.toString(entity,"UTF-8");
                 response.close();
                 // httpClient.close();
                 return result;
