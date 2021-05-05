@@ -1,32 +1,45 @@
 package com.george.spider.app.Controller;
 
-import com.george.spider.app.Utils.HttpAsynClientUtils;
-import com.george.spider.app.Utils.HttpClientUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
+
+import com.george.spider.app.Mapper.UsersMapper;
+import com.george.spider.app.Task.Ji.AnimeTask;
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 @RestController
-@RequestMapping("/index")
-public class IndexController {
+@RequestMapping("/")
+public class IndexController extends BaseController {
 
-    @RequestMapping("/index")
-    public String sayHello() throws IOException, InterruptedException {
-        String url ="https://www.uviewui.com/components/swiper.html";
-        String[] strs = new String[100];
+    @Autowired
+    private UsersMapper usersService;
+
+
+    @Autowired
+    private AnimeTask AnimeTask;
+
+
+    @SneakyThrows
+    @RequestMapping("")
+    public long sayHello()  {
+
+        long s = System.currentTimeMillis();
         for (int i = 0; i < 100; i++) {
-            strs[i] = url;
+            Future<String> task1 = AnimeTask.task1(i);
         }
-        String  a = HttpAsynClientUtils.httpGetRequest(strs);
-        System.out.println(a);
-//        Document document = Jsoup.parse(html);
-//        Element title = document.getElementsByTag("title").first();
-        return "任务投递结束";
+
+
+
+
+        long e = System.currentTimeMillis();
+        System.out.println("task总耗时:" + (e - s));
+
+        return  (e - s);
+
+
     }
 }
