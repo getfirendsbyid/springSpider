@@ -1,6 +1,6 @@
 package com.george.spider.app.Mapper;
 
-import com.george.spider.app.Entity.Video;
+import com.george.spider.app.Entity.Banner;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author George
- * @since 2021-05-03
+ * @since 2021-05-06
  */
-public interface VideoMapper extends BaseMapper<Video> {
+public interface BannerMapper extends BaseMapper<Banner> {
 
 }

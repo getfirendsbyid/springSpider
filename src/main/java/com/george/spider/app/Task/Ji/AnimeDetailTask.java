@@ -1,31 +1,22 @@
 package com.george.spider.app.Task.Ji;
 
-import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
-import java.util.*;
-import java.util.concurrent.Future;
-
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.george.spider.app.Entity.Tag;
-import com.george.spider.app.Mapper.TagMapper;
 import com.george.spider.app.ServiceImpl.AnimeServiceImpl;
 import com.george.spider.app.ServiceImpl.TagServiceImpl;
 import com.george.spider.app.Utils.HttpClientUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
+
+import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.*;
+import java.util.concurrent.Future;
 
 
 @Component
-public class AnimeTask {
+public class AnimeDetailTask {
 
     @Autowired
     private AnimeServiceImpl animeService;
@@ -63,7 +54,15 @@ public class AnimeTask {
             animeEntity.setUpdatedat(LocalDateTime.now());
             animeEntity.setPlaytime(localDateTime);
             savaData.add(animeEntity);//存储数据，
-
+//            //存储tag
+//            List<HashMap> tagList = JSON.parseArray(response.get(i).get("tag").toString(),HashMap.class);
+//            for (Integer t=0;t<tagList.size();t++){
+//                Tag tagEntity = new Tag();
+//                tagEntity.setTag(tagList.get(t).toString());
+//                tagEntity.setUpdatedat(LocalDateTime.now());
+//                tagEntity.setCreatedat(LocalDateTime.now());
+//                tagData.add(tagEntity);
+//            }
         }
 
         System.out.println(savaData);

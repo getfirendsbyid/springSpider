@@ -1,6 +1,6 @@
 package com.george.spider.app.Service;
 
-import com.george.spider.app.Entity.Video;
+import com.george.spider.app.Entity.Tag;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author George
- * @since 2021-05-03
+ * @since 2021-05-06
  */
-public interface IVideoService extends IService<Video> {
+public interface ITagService extends IService<Tag> {
 
 }

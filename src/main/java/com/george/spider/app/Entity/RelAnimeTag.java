@@ -12,45 +12,29 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author George
- * @since 2021-05-05
+ * @since 2021-05-06
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Anime implements Serializable {
+public class RelAnimeTag implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 番剧
+     * 标签
      */
-    private String anime;
+    private String tagId;
 
     /**
-     * 描述
+     * 动漫id
      */
-    private String desc;
+    private Integer animeId;
 
-    /**
-     * 集数
-     */
-    private Integer episode;
-
-    @TableField("playTime")
-    private LocalDateTime playtime;
-
-    @TableField("cratedAt")
-    private LocalDateTime cratedat;
+    @TableField("createAt")
+    private LocalDateTime createat;
 
     @TableField("updatedAt")
     private LocalDateTime updatedat;
-
-    /**
-     * 封面
-     */
-    private String cover;
-
-    @TableField("ji_id")
-    private Integer ji_id;
 
 
 }
