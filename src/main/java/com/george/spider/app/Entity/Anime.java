@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author George
- * @since 2021-05-05
+ * @since 2021-05-06
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -28,7 +28,7 @@ public class Anime implements Serializable {
     /**
      * 描述
      */
-    private String desc;
+    private String sign;
 
     /**
      * 集数
@@ -49,8 +49,9 @@ public class Anime implements Serializable {
      */
     private String cover;
 
-    @TableField("ji_id")
-    private Integer ji_id;
+    private String status;
+
+    private Integer jiId;
 
 
 }

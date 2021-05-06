@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author George
- * @since 2021-05-05
+ * @since 2021-05-06
  */
 public interface IAnimeService extends IService<Anime> {
 

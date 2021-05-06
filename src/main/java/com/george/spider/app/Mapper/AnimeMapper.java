@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author George
- * @since 2021-05-05
+ * @since 2021-05-06
  */
 public interface AnimeMapper extends BaseMapper<Anime> {
 

@@ -40,7 +40,7 @@ public class AnimeTask {
         object.put("year","全部年份");
         object.put("where","全部地区");
         object.put("tag","全部标签");
-        object.put("page_long","100");
+        object.put("page_long",100);
         object.put("page_num",page);
         String html = null;
         try {
@@ -48,9 +48,8 @@ public class AnimeTask {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
+        System.out.println("第"+page+"页");
         List<HashMap> response = JSON.parseArray(JSON.parseObject(html).getString("list"), HashMap.class);
-
         Collection savaData = new ArrayList();
 
         for (Integer i =0;i<response.size(); i++){
@@ -58,12 +57,11 @@ public class AnimeTask {
             LocalDateTime localDateTime = LocalDateTime.ofEpochSecond( Integer.parseInt(response.get(i).get("time").toString()), 0, ZoneOffset.ofHours(8));
             animeEntity.setAnime(response.get(i).get("name").toString());
             animeEntity.setCover(response.get(i).get("cover").toString());
-            animeEntity.setJi_id((Integer) response.get(i).get("id"));
+            animeEntity.setJiId(Integer.parseInt(response.get(i).get("id").toString()));
             animeEntity.setCratedat(LocalDateTime.now());
             animeEntity.setUpdatedat(LocalDateTime.now());
             animeEntity.setPlaytime(localDateTime);
             savaData.add(animeEntity);//存储数据，
-
         }
 
         System.out.println(savaData);
