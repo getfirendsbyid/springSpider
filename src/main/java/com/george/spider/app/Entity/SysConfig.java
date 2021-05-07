@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Tag implements Serializable {
+public class SysConfig implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,15 +26,25 @@ public class Tag implements Serializable {
     private Integer id;
 
     /**
-     * tag名称
+     * 系统配置key
      */
-    private String tag;
+    private String sysKey;
+
+    /**
+     * 系统配置值
+     */
+    private String sysValue;
 
     @TableField("createdAt")
     private LocalDateTime createdat;
 
     @TableField("updatedAt")
     private LocalDateTime updatedat;
+
+    /**
+     * 描述
+     */
+    private String desc;
 
 
 }

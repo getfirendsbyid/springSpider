@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author George
- * @since 2021-05-03
+ * @since 2021-05-07
  */
 @Service
 public class AnimeConllentServiceImpl extends ServiceImpl<AnimeConllentMapper, AnimeConllent> implements IAnimeConllentService {

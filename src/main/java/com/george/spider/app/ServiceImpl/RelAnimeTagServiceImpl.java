@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author George
- * @since 2021-05-06
+ * @since 2021-05-07
  */
 @Service
 public class RelAnimeTagServiceImpl extends ServiceImpl<RelAnimeTagMapper, RelAnimeTag> implements IRelAnimeTagService {

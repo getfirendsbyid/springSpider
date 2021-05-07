@@ -1,6 +1,6 @@
 package com.george.spider.app.Mapper;
 
-import com.george.spider.app.Entity.AnimeConllent;
+import com.george.spider.app.Entity.SysConfig;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author George
  * @since 2021-05-07
  */
-public interface AnimeConllentMapper extends BaseMapper<AnimeConllent> {
+public interface SysConfigMapper extends BaseMapper<SysConfig> {
 
 }

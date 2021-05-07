@@ -2,8 +2,6 @@ package com.george.spider.app.Service;
 
 import com.george.spider.app.Entity.Users;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Component;
 
 /**
  * <p>
@@ -11,10 +9,8 @@ import org.springframework.stereotype.Component;
  * </p>
  *
  * @author George
- * @since 2021-05-03
+ * @since 2021-05-07
  */
-@Mapper
-@Component
 public interface IUsersService extends IService<Users> {
 
 }

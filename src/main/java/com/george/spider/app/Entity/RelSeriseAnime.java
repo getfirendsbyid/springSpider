@@ -1,5 +1,7 @@
 package com.george.spider.app.Entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
@@ -12,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author George
- * @since 2021-05-06
+ * @since 2021-05-07
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -20,9 +22,12 @@ public class RelSeriseAnime implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String seriseId;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
-    private String animeId;
+    private Integer seriseId;
+
+    private Integer animeId;
 
     @TableField("createdAt")
     private LocalDateTime createdat;

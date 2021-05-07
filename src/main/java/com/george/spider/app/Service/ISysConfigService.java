@@ -1,6 +1,6 @@
 package com.george.spider.app.Service;
 
-import com.george.spider.app.Entity.AnimeConllent;
+import com.george.spider.app.Entity.SysConfig;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author George
  * @since 2021-05-07
  */
-public interface IAnimeConllentService extends IService<AnimeConllent> {
+public interface ISysConfigService extends IService<SysConfig> {
 
 }

@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author George
- * @since 2021-05-06
+ * @since 2021-05-07
  */
 @RestController
-@RequestMapping("/anime")
+@RequestMapping("/users")
 public class Controller extends BaseController {
 
 }

@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author George
- * @since 2021-05-06
+ * @since 2021-05-07
  */
 public interface IBannerService extends IService<Banner> {
 

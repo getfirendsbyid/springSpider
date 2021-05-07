@@ -3,11 +3,15 @@ package com.george.spider.app.Task.Ji;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.george.spider.app.Entity.Anime;
+import com.george.spider.app.Entity.RelAnimeTag;
 import com.george.spider.app.Entity.Tag;
 import com.george.spider.app.Mapper.AnimeMapper;
+import com.george.spider.app.Mapper.RelAnimeTagMapper;
 import com.george.spider.app.Mapper.TagMapper;
+import com.george.spider.app.Service.IAnimeService;
 import com.george.spider.app.ServiceImpl.AnimeServiceImpl;
 import com.george.spider.app.ServiceImpl.TagServiceImpl;
 import com.george.spider.app.Utils.HttpClientUtils;
@@ -28,9 +32,12 @@ public class AnimeDetailTask {
     @Autowired
     private AnimeMapper animeMapper;
     @Autowired
-    private TagServiceImpl tagService;
+    private AnimeServiceImpl animeService;
+
     @Autowired
     private TagMapper tagMapper;
+    @Autowired
+    private RelAnimeTagMapper relAnimeTagMapper;
 
     @Async
     public Future<String> getDetail(Integer id)  {
@@ -45,23 +52,42 @@ public class AnimeDetailTask {
         }
         JSONObject response = JSON.parseObject(html);
         UpdateWrapper<Anime> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("id",id).set("sign", response.get("sign").toString());
+        updateWrapper.eq("ji_id",id).set("sign", response.get("sign").toString());
         int anime = animeMapper.update(null,updateWrapper);
-        List<HashMap> tagList = JSON.parseArray(response.get("tag").toString(), HashMap.class);
+        JSONArray tagList = JSON.parseArray(response.get("tag").toString());
+
         for (int i = 0; i < tagList.size(); i++) {
-            UpdateWrapper<Tag> tagWrapper = new UpdateWrapper<>();
-            updateWrapper.eq("tag", tagList.get(i).toString());
+            QueryWrapper<Tag> tagWrapper = new QueryWrapper<>();
+            tagWrapper.eq("tag", tagList.get(i).toString());
             Tag tagOneData = tagMapper.selectOne(tagWrapper);
+            QueryWrapper<Anime> AnimeWrapper = new QueryWrapper<>();
+            AnimeWrapper.eq("ji_id", id);
+            AnimeWrapper.last("LIMIT 1");
+            Anime animeData = animeService.getOne(AnimeWrapper);
+            //tag不存在
             if (tagOneData==null){
                 Tag tagEntity = new Tag();
                 tagEntity.setTag(tagList.get(i).toString());
                 tagEntity.setCreatedat(LocalDateTime.now());
                 tagEntity.setUpdatedat(LocalDateTime.now());
-                int insert = tagMapper.insert(tagEntity);
-
+                tagMapper.insert(tagEntity);
+                QueryWrapper<Tag> tagHasWrapper = new QueryWrapper<>();
+                tagHasWrapper.eq("tag", tagList.get(i).toString());
+                Tag tagOne = tagMapper.selectOne(tagWrapper);
+                RelAnimeTag relAnimeTag = new RelAnimeTag();
+                relAnimeTag.setAnimeId(animeData.getId());
+                relAnimeTag.setTagId(tagOne.getId());
+                relAnimeTag.setUpdatedat(LocalDateTime.now());
+                relAnimeTag.setCreateat(LocalDateTime.now());
+                relAnimeTagMapper.insert(relAnimeTag);
+            }else{
+                RelAnimeTag relAnimeTag = new RelAnimeTag();
+                relAnimeTag.setAnimeId(animeData.getId());
+                relAnimeTag.setTagId(tagOneData.getId());
+                relAnimeTag.setUpdatedat(LocalDateTime.now());
+                relAnimeTag.setCreateat(LocalDateTime.now());
+                relAnimeTagMapper.insert(relAnimeTag);
             }
-
-
         }
         return null;
     }
