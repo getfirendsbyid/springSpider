@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-@ComponentScan("com.george.spider.app")
+@ComponentScan("com.george.spider")
 @MapperScan(basePackages = {"com.george.spider.app"})
 @EnableAsync // 开启多任务
 @SpringBootApplication

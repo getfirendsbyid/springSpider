@@ -1,7 +1,6 @@
 package com.george.spider.app.Controller;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -10,14 +9,12 @@ import com.george.spider.app.Entity.Serise;
 import com.george.spider.app.Mapper.BannerMapper;
 import com.george.spider.app.Mapper.SeriseMapper;
 import com.george.spider.app.Task.Ji.AnimeTask;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Future;
 
 @RestController
 @RequestMapping("/home")
@@ -52,5 +49,6 @@ public class IndexController extends BaseController {
         List<HashMap> hashMaps = JSONObject.parseArray(seriseIPage.toString(), HashMap.class);
         return success("获取成功",hashMaps);
     }
+
 
 }
