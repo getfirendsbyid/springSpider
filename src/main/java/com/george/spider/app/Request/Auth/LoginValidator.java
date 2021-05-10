@@ -1,9 +1,13 @@
 package com.george.spider.app.Request.Auth;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.security.acl.Group;
 
-public class LoginValidator {
+@Data
+public class LoginValidator implements Serializable {
 
         @NotBlank(message = "用户名不能为空" )
         private String username;
