@@ -41,7 +41,7 @@ public class GlobalExceptionHandler extends BaseController {
         );
         String errorMessage = stringBuilder.toString();
         errorMessage = errorMessage.substring(1, errorMessage.length());
-        return error(500,errorMessage,bindingResult.getAllErrors());
+        return "12";
     }
 
 //    /**

@@ -15,7 +15,10 @@ public class LoginValidator implements Serializable {
         @NotBlank(message = "密码不能为空")
         private String password;
 
+        @NotBlank(message = "cToken不能为空")
+        private String cToken;
+
         @NotBlank(message = "验证码不能为空")
-        private String code;
+        private String verifyCode;
 
 }

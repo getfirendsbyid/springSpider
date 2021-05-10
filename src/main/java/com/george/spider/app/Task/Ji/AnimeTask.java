@@ -69,18 +69,6 @@ public class AnimeTask {
         return null;
     }
 
-    /**
-     * @author puyf
-     * @Description:Collection中去重并将集合转为List
-     * @param datas
-     * @return
-     */
-    public static <T> List<T> distinct(Collection<T> datas) {
-        if(datas == null){
-            return new ArrayList<>();
-        }
-        Set<T> set = new HashSet<>(datas);//使用HashSet构造方法去重
-        return new ArrayList<>(set);
-    }
+
 
 }

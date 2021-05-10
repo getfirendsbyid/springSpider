@@ -4,23 +4,26 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class BaseController {
+public class BaseController<T> {
     private Integer successCode = 200;
-    public String success(String msg , List data){
-        HashMap response = new HashMap();
-        response.put("code",successCode);
+
+    public String success(T msg , T data){
+        HashMap<String,T> response = new HashMap<String,T>();
+        response.put("code", (T) successCode);
         response.put("msg",msg);
         response.put("data",data);
-        JSONObject json = new JSONObject(response);
-        return json.toString() ;
+        JSONObject json = new JSONObject((Map<String, Object>) response);
+        return json.toString();
     }
-    public String error(Integer code, String msg , List data){
-        HashMap response = new HashMap();
+
+    public String error(T code, T msg , T data){
+        HashMap<String,T> response = new HashMap<String,T>();
         response.put("code",code);
         response.put("msg",msg);
         response.put("data",data);
-        JSONObject json = new JSONObject(response);
+        JSONObject json = new JSONObject((Map<String, Object>) response);
         return json.toString();
     }
 }
