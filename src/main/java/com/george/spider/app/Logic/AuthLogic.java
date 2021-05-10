@@ -2,12 +2,14 @@ package com.george.spider.app.Logic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 import sun.misc.BASE64Encoder;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@Component
 public class AuthLogic {
 
     @Autowired
@@ -19,8 +21,11 @@ public class AuthLogic {
      * @return
      */
     public boolean checkCaptcha(String code, String token){
-        String trueCode = redisTemplate.opsForValue().get("captcha." + token).toString();
-        if (!trueCode.equals(code)){
+        String trueCode = (String) redisTemplate.opsForValue().get("captchaToken:" + token);
+        if (trueCode==null){
+            return false;
+        }
+        if (trueCode.equals(code)){
            return true;
         }
         return false;

@@ -1,5 +1,6 @@
 package com.george.spider.app.Controller;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.george.spider.app.Entity.Users;
 import com.george.spider.app.Logic.AuthLogic;
@@ -7,10 +8,12 @@ import com.george.spider.app.Mapper.UsersMapper;
 import com.george.spider.app.Request.Auth.LoginValidator;
 //import com.george.spider.app.Utils.ImageCode;
 import com.george.spider.app.Request.Auth.RegisterValidator;
+import com.george.spider.app.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,25 +34,32 @@ public class AuthController extends BaseController{
     @Autowired
     private UsersMapper usersMapper;
 
-    @PostMapping(value = "login")
-    public String login(@Validated LoginValidator loginValidator, BindingResult result){
-        String code = loginValidator.getVerifyCode();
-        String token = loginValidator.getCToken();
+    @PostMapping("login")
+    public Response<Object> login(@Validated LoginValidator loginValidator, BindingResult result) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        String code = loginValidator.getCode();
+        String token = loginValidator.getToken();
         String username = loginValidator.getUsername();
         String password = loginValidator.getPassword();
         //验证验证码是否正确
         boolean hasTrue = authLogic.checkCaptcha(code,token);
         if (!hasTrue){
-            return error(1,"验证码不正确",null);
+            return Response.error( "验证码不正确");
         }
         //验证账号密码
         QueryWrapper<Users> userNameWrapper = new QueryWrapper<>();
         userNameWrapper.eq("username", username);
         Users users = usersMapper.selectOne(userNameWrapper);
-        if (users.getPassword().equals()){
-
+        if (users==null){
+            return Response.error("用户名不存在");
+        }
+        boolean checkPassword = authLogic.passwordValidator(password, users.getPassword());
+        if (!checkPassword){
+            return Response.error("用户名或密码不正确");
         }
 
+        //jwt 生成token
+
+        return Response.success("请求成功");
 //        String verificationCodeIn = (String) httpServletRequest.getSession().getAttribute("verificationCode");
 //        httpServletRequest.getSession().removeAttribute("verificationCode");
 //        if (StringUtils.isEmpty(verificationCodeIn) || !verificationCodeIn.equals(verificationCode)) {
@@ -66,7 +76,7 @@ public class AuthController extends BaseController{
     }
 
     @RequestMapping("register")
-    public String register(@Validated RegisterValidator registerValidator, BindingResult result) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public Object register(@Validated RegisterValidator registerValidator, BindingResult result) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String code = registerValidator.getVerifyCode();
         String token = registerValidator.getCToken();
         String username = registerValidator.getUsername();
@@ -74,19 +84,19 @@ public class AuthController extends BaseController{
         String email = registerValidator.getPassword();
         String rePassword = registerValidator.getRePassword();
         if (!rePassword.equals(password)){
-            return error(1,"两次密码不一致",null);
+            return Response.error("两次密码不一致");
         }
         //验证账号是否已经被使用
         QueryWrapper registQuseryWrapper = new QueryWrapper();
         registQuseryWrapper.eq("username",username);
         Users usersData = usersMapper.selectOne(registQuseryWrapper);
         if (usersData!=null){
-            return error(1,"该账号已注册",null);
+            return Response.error("该账号已注册");
         }
         //验证验证码
         boolean checkCaptcha = authLogic.checkCaptcha(code, token);
         if (!checkCaptcha){
-            return error(1,"验证码错误",null);
+            return Response.error("验证码错误");
         }
         //密码加密
         String encodePassword = authLogic.passwordEncode(password);

@@ -1,13 +1,11 @@
 package com.george.spider.app.Request.Auth;
 
-package com.george.spider.app.Request.Auth;
 
 import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.security.acl.Group;
 
 @Data
 public class RegisterValidator implements Serializable {

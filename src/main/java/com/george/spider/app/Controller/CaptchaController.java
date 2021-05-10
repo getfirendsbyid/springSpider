@@ -1,6 +1,7 @@
 package com.george.spider.app.Controller;
 
 
+import com.george.spider.app.Response.Response;
 import com.google.code.kaptcha.Producer;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class CaptchaController  extends BaseController{
 
     private final Integer expireTime = 60 * 5; //5分钟验证码缓存
     @GetMapping("")
-    public String captcha() throws IOException
+    public Response<HashMap<String, Object>> captcha() throws IOException
     {
         HashMap<String, Object> map = new HashMap<>();
         // 生成文字验证码
@@ -46,17 +46,15 @@ public class CaptchaController  extends BaseController{
         BufferedImage image = producer.createImage(text);
         outputStream = new ByteArrayOutputStream();
         ImageIO.write(image, "jpg", outputStream);
-        //
         BASE64Encoder encoder = new BASE64Encoder();
-        String imageStr=encoder.encode(outputStream.toByteArray());
-        map.put("img",imageStr);
+        String imageStr = encoder.encode(outputStream.toByteArray());
+        String captchaBase64 = "data:image/jpeg;base64," + imageStr.replaceAll("\r\n", "");
+        map.put("img",captchaBase64);
         //生成验证码对应的token  以token为key  验证码为value存在redis中
         String codeToken= RandomStringUtils.randomAlphanumeric(32);
-        redisTemplate.opsForValue().set("captchaToken."+codeToken, text, expireTime, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set("captchaToken:"+codeToken, text, expireTime, TimeUnit.MINUTES);
         map.put("cToken", codeToken);
-        System.out.println(map);
-        return  success("请求成功",map);
+        return  Response.success("请求成功",map);
     }
-
 
 }
