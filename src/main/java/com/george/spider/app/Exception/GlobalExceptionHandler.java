@@ -20,8 +20,6 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-
-
     /**
      *
      * @param e

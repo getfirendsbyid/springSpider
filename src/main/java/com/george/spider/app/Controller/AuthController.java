@@ -39,6 +39,11 @@ public class AuthController extends BaseController{
         String token = loginValidator.getToken();
         String username = loginValidator.getUsername();
         String password = loginValidator.getPassword();
+        if(result.hasErrors()){
+            String errorMsg = result.getFieldError().getDefaultMessage();
+            return Response.error(errorMsg);
+        }
+
         //验证验证码是否正确
         boolean hasTrue = authLogic.checkCaptcha(code,token);
         if (!hasTrue){
@@ -82,6 +87,10 @@ public class AuthController extends BaseController{
         String password = registerValidator.getPassword();
         String email = registerValidator.getPassword();
         String rePassword = registerValidator.getRePassword();
+        if(result.hasErrors()){
+            String errorMsg = result.getFieldError().getDefaultMessage();
+            return Response.error(errorMsg);
+        }
         if (!rePassword.equals(password)){
             return Response.error("两次密码不一致");
         }
@@ -97,7 +106,6 @@ public class AuthController extends BaseController{
         if (usersData!=null){
             return Response.error("该账号已注册");
         }
-
         //密码加密
         String encodePassword = authLogic.passwordEncode(password);
         //添加用户
