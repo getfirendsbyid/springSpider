@@ -9,19 +9,18 @@ import com.george.spider.app.Request.Auth.LoginValidator;
 //import com.george.spider.app.Utils.ImageCode;
 import com.george.spider.app.Request.Auth.RegisterValidator;
 import com.george.spider.app.Response.Response;
+import com.george.spider.app.Utils.JWTTokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 @RestController
+@ControllerAdvice
 @RequestMapping("/auth")
 public class AuthController extends BaseController{
 
@@ -56,9 +55,9 @@ public class AuthController extends BaseController{
         if (!checkPassword){
             return Response.error("用户名或密码不正确");
         }
-
         //jwt 生成token
-
+        String JWTToken = JWTTokenUtils.createToken(username);
+        System.out.println(JWTToken);
         return Response.success("请求成功");
 //        String verificationCodeIn = (String) httpServletRequest.getSession().getAttribute("verificationCode");
 //        httpServletRequest.getSession().removeAttribute("verificationCode");
@@ -86,6 +85,11 @@ public class AuthController extends BaseController{
         if (!rePassword.equals(password)){
             return Response.error("两次密码不一致");
         }
+        //校验验证码是否正确
+        boolean checkCaptcha = authLogic.checkCaptcha(code,token);
+        if (!checkCaptcha){
+            return Response.error( "验证码不正确");
+        }
         //验证账号是否已经被使用
         QueryWrapper registQuseryWrapper = new QueryWrapper();
         registQuseryWrapper.eq("username",username);
@@ -93,11 +97,7 @@ public class AuthController extends BaseController{
         if (usersData!=null){
             return Response.error("该账号已注册");
         }
-        //验证验证码
-        boolean checkCaptcha = authLogic.checkCaptcha(code, token);
-        if (!checkCaptcha){
-            return Response.error("验证码错误");
-        }
+
         //密码加密
         String encodePassword = authLogic.passwordEncode(password);
         //添加用户
@@ -105,8 +105,10 @@ public class AuthController extends BaseController{
         users.setUsername(username);
         users.setPassword(encodePassword);
         users.setEmail(email);
-        usersMapper.insert(users);
-
-        return code;
+        int insertUser = usersMapper.insert(users);
+        if (insertUser>0){
+           return Response.success("注册成功");
+        }
+        return Response.error("注册失败,请联系管理员");
     }
 }

@@ -1,72 +1,59 @@
 package com.george.spider.app.Exception;
 
-import com.george.spider.app.Controller.BaseController;
-
-import lombok.extern.slf4j.Slf4j;
+import com.george.spider.app.Response.Response;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.servlet.ServletException;
-
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
- * @author lazycece
- * @date 2019/02/23
+ * @author sssr
+ * @version 1.0
+ * @Description: 异常捕获处理类
+ * @date 2019/2/20
  */
-@RestControllerAdvice
-@Slf4j
-public class GlobalExceptionHandler extends BaseController {
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+
 
     /**
-     * 参数校验错误异常
      *
-     * @param e MethodArgumentNotValidException|BindException
-     * @return ResponseData
+     * @param e
+     * @return
      */
-    @ExceptionHandler(value = {BindException.class, MethodArgumentNotValidException.class})
-    public String bindExceptionHandler(Exception e) {
-        BindingResult bindingResult;
-        if (e instanceof BindException) {
-            bindingResult = ((BindException) e).getBindingResult();
-        } else {
-            bindingResult = ((MethodArgumentNotValidException) e).getBindingResult();
-        }
-        StringBuilder stringBuilder = new StringBuilder();
-        bindingResult.getAllErrors().forEach(
-                objectError ->
-                        stringBuilder.append(",").append(objectError.getDefaultMessage())
-        );
-        String errorMessage = stringBuilder.toString();
-        errorMessage = errorMessage.substring(1, errorMessage.length());
-        return errorMessage;
+    @ExceptionHandler(GlobalException.class)
+    public Response globalException(Exception e){
+        return Response.error(e.getMessage());
     }
 
-//    /**
-//     * 捕获自定义的统一全局异常
-//     *
-//     * @param e AbstractGlobalException
-//     * @return ResponseData
-//     */
-//    @ExceptionHandler(value = AbstractGlobalException.class)
-//    public ResponseData customExceptionHandler(AbstractGlobalException e) {
-//        return ResponseData.builder().code(e.getCode()).message(e.getMessage()).build();
-//    }
-//
-//    /**
-//     * 捕获未知异常
-//     *
-//     * @param e Exception
-//     * @return ResponseData
-//     */
-//    @ExceptionHandler(value = Exception.class)
-//    public ResponseData commonExceptionHandler(Exception e) throws ServletException {
-//        if (e instanceof ServletException) {
-//            throw (ServletException) e;
-//        }
-//        log.error("server inner error: {}", e);
-//        return ResponseData.builder().code(ResCode.FAIL).message(ResMsg.SERVER_INNER_ERROR).build();
-//    }
+    /**
+     * lombok请求参数不合法异常处理
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(BindException.class)
+    public Response bindException(BindException e) {
+        BindingResult bindingResult = e.getBindingResult();
+        String errorMesssage = "";
+        for (FieldError fieldError : bindingResult.getFieldErrors()) {
+            errorMesssage += fieldError.getDefaultMessage() + "!";
+        }
+        return Response.error(errorMesssage);
+    }
+
+    /**
+     * 全局异常处理
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(Exception.class)
+    public Response exception(Exception e){
+        return Response.error(e.getMessage());
+    }
 }
