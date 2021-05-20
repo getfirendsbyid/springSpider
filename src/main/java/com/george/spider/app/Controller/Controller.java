@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- *  前端控制器
+ * 动漫类型表 前端控制器
  * </p>
  *
  * @author George
- * @since 2021-05-07
+ * @since 2021-05-21
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/anime-type")
 public class Controller extends BaseController {
 
 }

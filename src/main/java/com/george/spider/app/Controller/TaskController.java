@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.george.spider.app.Entity.Anime;
 import com.george.spider.app.Mapper.AnimeMapper;
 import com.george.spider.app.Task.Ji.AnimeDetailTask;
-import com.george.spider.app.Task.Ji.AnimeTask;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +17,9 @@ import java.util.concurrent.Future;
 @RequestMapping("/task")
 public class TaskController extends BaseController{
     @Autowired
-    private AnimeTask AnimeTask;
-
+    private com.george.spider.app.Task.ageFans.Anime AnimeTask;
+    @Autowired
+    private com.george.spider.app.Task.ageFans.Tag tagTask;
     @Autowired
     private AnimeDetailTask animeDetailTask;
 
@@ -40,13 +40,23 @@ public class TaskController extends BaseController{
     }
 
     @SneakyThrows
+    @RequestMapping("tag")
+    public long AnimeTag()  {
+        long s = System.currentTimeMillis();
+        Future<String> task1 = tagTask.start();
+        long e = System.currentTimeMillis();
+        System.out.println("task总耗时:" + (e - s));
+        return  (e - s);
+    }
+
+    @SneakyThrows
     @RequestMapping("detail")
     public long getDetail(){
         List<Anime> anime = animeMapper.selectList(new QueryWrapper<>());
 
         long s = System.currentTimeMillis();
         for (int i = 0; i < anime.size(); i++) {
-            Future<String> task1 = animeDetailTask.getDetail(anime.get(i).getJiId());
+//            Future<String> task1 = animeDetailTask.getDetail(anime.get(i).getJiId());
         }
 
         long e = System.currentTimeMillis();

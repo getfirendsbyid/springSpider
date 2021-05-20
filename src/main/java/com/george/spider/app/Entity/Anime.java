@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author George
- * @since 2021-05-07
+ * @since 2021-05-21
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -26,40 +26,142 @@ public class Anime implements Serializable {
     private Integer id;
 
     /**
-     * 番剧
+     * agefans id
      */
-    private String anime;
+    @TableField("aId")
+    private Integer aid;
 
     /**
-     * 描述
+     * 地区Id
      */
-    private String sign;
+    @TableField("areaId")
+    private Integer areaid;
 
     /**
-     * 集数
+     * R动画种类
      */
-    private Integer episode;
+    @TableField("typeId")
+    private Integer typeid;
 
+    /**
+     * R动画名称
+     */
+    private String name;
+
+    /**
+     * R原版名称
+     */
+    @TableField("trueName")
+    private String truename;
+
+    /**
+     * R其它名称
+     */
+    @TableField("otherName")
+    private String othername;
+
+    /**
+     * R字母索引
+     */
+    @TableField("letterId")
+    private Integer letterid;
+
+    /**
+     * R原作
+     */
+    private String author;
+
+    /**
+     * R制作公司
+     */
+    private String company;
+
+    /**
+     * R首播时间
+     */
     @TableField("playTime")
     private LocalDateTime playtime;
 
-    @TableField("cratedAt")
-    private LocalDateTime cratedat;
+    /**
+     * R播放状态
+     */
+    @TableField("statusId")
+    private Integer statusid;
+
+    /**
+     * R新番标题
+     */
+    @TableField("latestName")
+    private String latestname;
+
+    /**
+     * R网盘资源
+     */
+    @TableField("cloudDisk")
+    private String clouddisk;
+
+    /**
+     * R视频尺寸
+     */
+    @TableField("videoSize")
+    private String videosize;
+
+    /**
+     * R官方网站
+     */
+    private String website;
+
+    /**
+     * R更新时间
+     */
+    @TableField("newUpdateAt")
+    private LocalDateTime newupdateat;
+
+    /**
+     * R推荐星级
+     */
+    private Integer star;
+
+    /**
+     * R封面图
+     */
+    @TableField("coverImg")
+    private String coverimg;
+
+    /**
+     * R封面图小
+     */
+    @TableField("coverSmallImg")
+    private String coversmallimg;
+
+    /**
+     * R简介
+     */
+    private String desc;
+
+    /**
+     * R首播年份
+     */
+    @TableField("yearId")
+    private Integer yearid;
+
+    /**
+     * R首播季度
+     */
+    @TableField("seasonId")
+    private Integer seasonid;
+
+    /**
+     * 排名点击
+     */
+    @TableField("rankCnt")
+    private Integer rankcnt;
 
     @TableField("updatedAt")
     private LocalDateTime updatedat;
 
-    /**
-     * 封面
-     */
-    private String cover;
-
-    /**
-     * 所扒平台的id
-     */
-    private Integer jiId;
-
-    private Integer status;
+    @TableField("createdAt")
+    private LocalDateTime createdat;
 
 
 }
