@@ -2,7 +2,7 @@ package com.george.spider.app.Exception;
 
 
 /**
- * @author sssr
+ * @author geroge
  * @version 1.0
  * @Description: 自定义异常类
  * @date 2019/2/20
