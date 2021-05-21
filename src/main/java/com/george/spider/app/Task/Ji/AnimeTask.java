@@ -55,10 +55,10 @@ public class AnimeTask {
         for (Integer i =0;i<response.size(); i++){
             com.george.spider.app.Entity.Anime animeEntity = new com.george.spider.app.Entity.Anime();
             LocalDateTime localDateTime = LocalDateTime.ofEpochSecond( Integer.parseInt(response.get(i).get("time").toString()), 0, ZoneOffset.ofHours(8));
-            animeEntity.setAnime(response.get(i).get("name").toString());
-            animeEntity.setCover(response.get(i).get("cover").toString());
-            animeEntity.setJiId(Integer.parseInt(response.get(i).get("id").toString()));
-            animeEntity.setCratedat(LocalDateTime.now());
+//            animeEntity.setAnime(response.get(i).get("name").toString());
+//            animeEntity.setCover(response.get(i).get("cover").toString());
+//            animeEntity.setJiId(Integer.parseInt(response.get(i).get("id").toString()));
+//            animeEntity.setCratedat(LocalDateTime.now());
             animeEntity.setUpdatedat(LocalDateTime.now());
             animeEntity.setPlaytime(localDateTime);
             savaData.add(animeEntity);//存储数据，
