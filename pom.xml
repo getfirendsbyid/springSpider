@@ -36,6 +36,8 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>2.4.5</version>
         </dependency>
+
+
         <!--        Spring官方-->
         <!--        http请求包-->
         <dependency>
@@ -161,6 +163,17 @@
                 </dependencies>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
     </build>
 
 </project>

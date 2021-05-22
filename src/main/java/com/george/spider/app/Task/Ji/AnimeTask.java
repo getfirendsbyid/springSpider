@@ -60,7 +60,7 @@ public class AnimeTask {
 //            animeEntity.setJiId(Integer.parseInt(response.get(i).get("id").toString()));
 //            animeEntity.setCratedat(LocalDateTime.now());
             animeEntity.setUpdatedat(LocalDateTime.now());
-            animeEntity.setPlaytime(localDateTime);
+//            animeEntity.setPlaytime(localDateTime);
             savaData.add(animeEntity);//存储数据，
         }
 

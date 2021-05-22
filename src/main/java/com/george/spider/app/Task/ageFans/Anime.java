@@ -1,26 +1,19 @@
 package com.george.spider.app.Task.ageFans;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.george.spider.app.Entity.AnimeStatus;
 import com.george.spider.app.Entity.AnimeType;
 import com.george.spider.app.ServiceImpl.*;
 import com.george.spider.app.Utils.HttpClientUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Future;
 
 
 @Component
@@ -35,9 +28,9 @@ public class Anime {
     @Autowired
     private AnimeStatusServiceImpl animeStatusService;
 
-    public Future<String> getList(Integer page)  {
+    public boolean getList(Integer page)  {
         System.out.println("thread:"+Thread.currentThread().getName());
-        String url ="https://api.agefans.app/v2/catalog?genre=all&label=all&letter=all&order=更新时间&region=all&resource=all&season=all&status=all&year=all&page="+page+"&size=10";
+        String url ="https://api.agefans.app/v2/catalog?genre=all&label=all&letter=all&order=更新时间&region=all&resource=all&season=all&status=all&year=all&page="+page+"&size=100";
         String html = null;
         html = HttpClientUtils.httpGetRequest(url);
         System.out.println("第"+page+"页");
@@ -45,7 +38,6 @@ public class Anime {
         //获取分页数据
         String animeListString = JSON.parseObject(html).getString("AniPreL");
         List<HashMap> hashMapList = JSON.parseArray(animeListString, HashMap.class);
-        System.out.println(hashMapList);
 
         Collection animeArray = new ArrayList();
         for (int i = 0; i < hashMapList.size(); i++) {
@@ -54,31 +46,51 @@ public class Anime {
             anime.setName(hashMapList.get(i).get("R动画名称").toString());
             //存储typeId 索引值
             QueryWrapper<AnimeType> AnimeTypeWrapper = new QueryWrapper<>();
-            AnimeTypeWrapper.eq("type",hashMapList.get(i).get("R动画类型").toString() );
+            AnimeTypeWrapper.eq("type",hashMapList.get(i).get("R动画种类").toString() );
             AnimeType Typeone = animeTypeService.getOne(AnimeTypeWrapper);
-            anime.setTypeid(Typeone.getId());
+            if (Typeone==null){
+                AnimeType animeType = new AnimeType();
+                animeType.setType(hashMapList.get(i).get("R动画种类").toString());
+                animeType.setCreatedat(LocalDateTime.now());
+                animeTypeService.save(animeType);
+
+                anime.setTypeid(animeType.getId());
+            }else {
+                anime.setTypeid(Typeone.getId());
+            }
             anime.setTruename(hashMapList.get(i).get("R原版名称").toString());
             anime.setOthername(hashMapList.get(i).get("R其他名称").toString());
             //转首播时间
-            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
-            LocalDateTime Playtime = LocalDateTime.parse(hashMapList.get(i).get("R首播时间").toString(), fmt);
-            anime.setPlaytime(Playtime);
+            anime.setPlaytime(hashMapList.get(i).get("R首播时间").toString());
             //存储 R播放状态
             QueryWrapper<AnimeStatus> AnimeStatusWrapper = new QueryWrapper<>();
-            AnimeStatusWrapper.eq("status",hashMapList.get(i).get("R动画类型").toString());
+            AnimeStatusWrapper.eq("status",hashMapList.get(i).get("R播放状态").toString());
             AnimeStatusWrapper.last("LIMIT 1");
             AnimeStatus Statusone = animeStatusService.getOne(AnimeStatusWrapper);
 
             anime.setStatusid(Statusone.getId());
             anime.setAuthor(hashMapList.get(i).get("R原作").toString());
             anime.setCompany(hashMapList.get(i).get("R制作公司").toString());
-            anime.setDesc(hashMapList.get(i).get("R简介").toString());
+            anime.setDesctext(hashMapList.get(i).get("R简介").toString());
             anime.setCoversmallimg(hashMapList.get(i).get("R封面图小").toString());
             anime.setLatestname(hashMapList.get(i).get("R新番标题").toString());
-            animeArray.add(anime);
-        }
-        animeService.saveBatch(animeArray);
+            anime.setCreatedat(LocalDateTime.now());
+            try{
+                boolean b = animeService.save(anime);
 
+            }catch (Exception e){
+                System.out.println(anime);
+                System.out.println(e);
+            }
+//            animeArray.add(anime);
+        }
+//        try{
+//            boolean b = animeService.saveBatch(animeArray);
+//            System.out.println(b);
+//            return b;
+//        }catch (Exception e){
+//            System.out.println(e);
+//        }
 
 //
 //        Collection savaData = new ArrayList();
@@ -93,7 +105,7 @@ public class Anime {
 //
 //        System.out.println(savaData);
 //        boolean b = animeService.saveBatch(savaData);
-        return null;
+        return true;
     }
 
 

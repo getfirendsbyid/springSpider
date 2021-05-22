@@ -27,13 +27,11 @@ public class TaskController extends BaseController{
     private AnimeMapper animeMapper;
 
 
-    @SneakyThrows
     @RequestMapping("anime")
     public long Anime()  {
         long s = System.currentTimeMillis();
-        for (int i = 0; i < 100; i++) {
-            Future<String> task1 = AnimeTask.getList(i);
-            Thread.sleep(1);
+        for (int i = 0; i < 1000; i++) {
+            final boolean list = AnimeTask.getList(i);
         }
         long e = System.currentTimeMillis();
         System.out.println("task总耗时:" + (e - s));

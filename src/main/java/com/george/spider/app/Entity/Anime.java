@@ -80,7 +80,7 @@ public class Anime implements Serializable {
      * R首播时间
      */
     @TableField("playTime")
-    private LocalDateTime playtime;
+    private String playtime;
 
     /**
      * R播放状态
@@ -137,7 +137,8 @@ public class Anime implements Serializable {
     /**
      * R简介
      */
-    private String desc;
+    @TableField("descText")
+    private String desctext;
 
     /**
      * R首播年份

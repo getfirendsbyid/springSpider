@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @ComponentScan("com.george.spider")
-@MapperScan(basePackages = {"com.george.spider.app"})
+@MapperScan(basePackages = {"com.george.spider.app.Mapper"})
 @EnableAsync // 开启多任务
 @SpringBootApplication
 public class SpiderApplication {
