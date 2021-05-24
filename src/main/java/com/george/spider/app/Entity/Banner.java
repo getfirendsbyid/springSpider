@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>
@@ -17,6 +18,7 @@ import lombok.EqualsAndHashCode;
  * @since 2021-05-21
  */
 @Data
+@Component
 @EqualsAndHashCode(callSuper = false)
 public class Banner implements Serializable {
 

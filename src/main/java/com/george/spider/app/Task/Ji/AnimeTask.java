@@ -24,7 +24,6 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
 
-@Component
 public class AnimeTask {
 
     @Autowired

@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @Component
-public class Anime {
+public class AnimeTask {
 
     @Autowired
     private AnimeServiceImpl animeService;

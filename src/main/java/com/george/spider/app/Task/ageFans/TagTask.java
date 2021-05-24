@@ -21,7 +21,7 @@ import java.util.concurrent.Future;
 
 @Component
 
-public class Tag {
+public class TagTask {
 
     @Autowired
     private AnimeAreaServiceImpl animeAreaService;

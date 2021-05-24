@@ -3,13 +3,12 @@ package com.george.spider.app.Controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.george.spider.app.Entity.Anime;
 import com.george.spider.app.Mapper.AnimeMapper;
-import com.george.spider.app.Task.Ji.AnimeDetailTask;
+import com.george.spider.app.Task.ageFans.ChapterTask;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Wrapper;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -17,21 +16,34 @@ import java.util.concurrent.Future;
 @RequestMapping("/task")
 public class TaskController extends BaseController{
     @Autowired
-    private com.george.spider.app.Task.ageFans.Anime AnimeTask;
+    private com.george.spider.app.Task.ageFans.AnimeTask AnimeTask;
     @Autowired
-    private com.george.spider.app.Task.ageFans.Tag tagTask;
+    private com.george.spider.app.Task.ageFans.TagTask tagTask;
     @Autowired
-    private AnimeDetailTask animeDetailTask;
+    private ChapterTask chapter;
 
     @Autowired
     private AnimeMapper animeMapper;
 
 
-    @RequestMapping("anime")
+    @RequestMapping("anime111")
     public long Anime()  {
         long s = System.currentTimeMillis();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 1; i < 1000; i++) {
             final boolean list = AnimeTask.getList(i);
+        }
+        long e = System.currentTimeMillis();
+        System.out.println("task总耗时:" + (e - s));
+        return  (e - s);
+    }
+
+
+    @RequestMapping("chapter")
+    public long chapter()  {
+        List<Anime> anime = animeMapper.selectList(new QueryWrapper<>());
+        long s = System.currentTimeMillis();
+        for (int i = 0; i < anime.size(); i++) {
+            chapter.getList(anime.get(i).getAid());
         }
         long e = System.currentTimeMillis();
         System.out.println("task总耗时:" + (e - s));
