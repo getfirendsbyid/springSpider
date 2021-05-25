@@ -18,24 +18,14 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Banner implements Serializable {
+public class AnimeSeries implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * banner图片地址
-     */
-    private String image;
-
-    private String title;
-
-    /**
-     * 动漫id
-     */
-    private Integer animeId;
+    private String series;
 
     @TableField("createdAt")
     private LocalDateTime createdat;

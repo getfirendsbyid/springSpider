@@ -1,6 +1,6 @@
 package com.george.spider.app.Service;
 
-import com.george.spider.app.Entity.Banner;
+import com.george.spider.app.Entity.AnimeSeries;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author George
  * @since 2021-05-25
  */
-public interface IBannerService extends IService<Banner> {
+public interface IAnimeSeriesService extends IService<AnimeSeries> {
 
 }

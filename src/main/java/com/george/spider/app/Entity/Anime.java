@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.stereotype.Component;
 
 /**
  * <p>
@@ -15,10 +14,9 @@ import org.springframework.stereotype.Component;
  * </p>
  *
  * @author George
- * @since 2021-05-21
+ * @since 2021-05-25
  */
 @Data
-@Component
 @EqualsAndHashCode(callSuper = false)
 public class Anime implements Serializable {
 
@@ -165,6 +163,11 @@ public class Anime implements Serializable {
 
     @TableField("createdAt")
     private LocalDateTime createdat;
+
+    /**
+     * status 0 不展示  1展示
+     */
+    private Integer status;
 
 
 }

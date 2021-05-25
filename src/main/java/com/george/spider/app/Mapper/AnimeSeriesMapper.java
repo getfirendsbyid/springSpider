@@ -1,6 +1,6 @@
 package com.george.spider.app.Mapper;
 
-import com.george.spider.app.Entity.Banner;
+import com.george.spider.app.Entity.AnimeSeries;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author George
  * @since 2021-05-25
  */
-public interface BannerMapper extends BaseMapper<Banner> {
+public interface AnimeSeriesMapper extends BaseMapper<AnimeSeries> {
 
 }
